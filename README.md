@@ -11,8 +11,9 @@ A full-stack web application to track cashback deals across e-commerce platforms
 <!-- Add your Render URL here after deployment -->
 **Live:** [cashtrack-nect.onrender.com](https://cashtrack-nect.onrender.com)
 
-![CashTrack Screenshot](screenshot.png)
+https://github.com/Dineshkarthik2906/cashtrack/raw/main/demo.mp4
 
+![CashTrack Screenshot](screenshot.png)
 ---
 
 ## ✨ Features
