@@ -9,7 +9,7 @@ A full-stack web application to track cashback deals across e-commerce platforms
 ## 🖥️ Demo
 
 <!-- Add your Render URL here after deployment -->
-**Live:** [cashtrack.onrender.com](https://cashtrack.onrender.com)
+**Live:** [cashtrack-nect.onrender.com](https://cashtrack-nect.onrender.com)
 
 ![CashTrack Screenshot](screenshot.png)
 
