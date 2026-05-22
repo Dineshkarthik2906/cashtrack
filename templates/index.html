@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CashTrack — Cashback Deal Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --surface2: #f0efe9;
+      --border: #e2e0d8;
+      --text: #1a1915;
+      --muted: #7a786e;
+      --accent: #1a56db;
+      --accent-bg: #eef3fd;
+      --green: #166534;
+      --green-bg: #dcfce7;
+      --red: #991b1b;
+      --red-bg: #fee2e2;
+      --amber: #92400e;
+      --amber-bg: #fef3c7;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
+    .header-tag {
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--accent-bg);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .stat-value.green { color: #16a34a; }
+
+    /* MAIN LAYOUT */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    /* FORM */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 76px;
+    }
+
+    .form-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+      background: white;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-primary:hover { background: #1447c0; }
+    .btn-primary:active { transform: scale(0.99); }
+
+    /* DEALS LIST */
+    .deals-section {}
+
+    .deals-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .deals-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tab {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* DEAL CARD */
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 0.75rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      transition: border-color 0.15s;
+    }
+
+    .deal-card:hover { border-color: #c5c3bb; }
+    .deal-card.redeemed { opacity: 0.6; }
+
+    .deal-store {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .deal-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .badge-cashback {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .badge-price {
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .badge-savings {
+      background: var(--amber-bg);
+      color: var(--amber);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .badge-redeemed {
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .deal-url {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .deal-url:hover { text-decoration: underline; }
+
+    .deal-date {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .deal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-action {
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-action:hover { background: var(--surface2); }
+
+    .btn-action.redeem {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .btn-action.redeem:hover { background: #bbf7d0; }
+
+    .btn-action.delete {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: #fecaca;
+    }
+
+    .btn-action.delete:hover { background: #fecaca; }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    .empty h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+    .empty p { font-size: 14px; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s;
+      z-index: 999;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .main { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr; }
+      header { padding: 0 1rem; }
+      .stats-bar, .main { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">₹</div>
+    CashTrack
+  </div>
+  <span class="header-tag">Cashback Deal Tracker</span>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-label">Total Deals</div>
+    <div class="stat-value" id="stat-total">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Deals Redeemed</div>
+    <div class="stat-value" id="stat-redeemed">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Savings</div>
+    <div class="stat-value green" id="stat-savings">₹0</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <div class="form-title">Add New Deal</div>
+
+    <div class="form-group">
+      <label>Store Name</label>
+      <input type="text" id="store" placeholder="e.g. Amazon, Flipkart" />
+    </div>
+
+    <div class="input-row">
+      <div class="form-group">
+        <label>Original Price (₹)</label>
+        <input type="number" id="price" placeholder="2000" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Cashback %</label>
+        <input type="number" id="cashback" placeholder="5" min="0" max="100" step="0.1" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Deal URL (optional)</label>
+      <input type="url" id="url" placeholder="https://..." />
+    </div>
+
+    <button class="btn-primary" onclick="addDeal()">Add Deal →</button>
+  </div>
+
+  <!-- DEALS LIST -->
+  <div class="deals-section">
+    <div class="deals-header">
+      <div class="deals-title">Your Deals</div>
+      <div class="filter-tabs">
+        <button class="tab active" onclick="setFilter('all', this)">All</button>
+        <button class="tab" onclick="setFilter('active', this)">Active</button>
+        <button class="tab" onclick="setFilter('redeemed', this)">Redeemed</button>
+      </div>
+    </div>
+    <div id="deals-list"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API = 'http://127.0.0.1:5000/api';
+  let allDeals = [];
+  let currentFilter = 'all';
+
+  async function loadDeals() {
+    try {
+      const res = await fetch(`${API}/deals`);
+      allDeals = await res.json();
+      renderDeals();
+      loadStats();
+    } catch (e) {
+      showToast('Could not connect to server');
+    }
+  }
+
+  async function loadStats() {
+    try {
+      const res = await fetch(`${API}/deals/stats`);
+      const stats = await res.json();
+      document.getElementById('stat-total').textContent = allDeals.length;
+      document.getElementById('stat-redeemed').textContent = stats.total_deals_redeemed;
+      document.getElementById('stat-savings').textContent = '₹' + stats.total_saved.toLocaleString('en-IN');
+    } catch (e) {}
+  }
+
+  function renderDeals() {
+    const list = document.getElementById('deals-list');
+    let deals = allDeals;
+
+    if (currentFilter === 'active') deals = deals.filter(d => !d.redeemed);
+    if (currentFilter === 'redeemed') deals = deals.filter(d => d.redeemed);
+
+    if (deals.length === 0) {
+      list.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">🏷️</div>
+          <h3>No deals here</h3>
+          <p>Add your first cashback deal using the form.</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = deals.map(deal => {
+      const savings = (deal.original_price * deal.cashback_percent / 100).toFixed(2);
+      const dateStr = deal.created_at ? deal.created_at.split(' ')[0] : '';
+      return `
+        <div class="deal-card ${deal.redeemed ? 'redeemed' : ''}">
+          <div>
+            <div class="deal-store">${escHtml(deal.store)}</div>
+            <div class="deal-meta">
+              <span class="badge badge-cashback">${deal.cashback_percent}% cashback</span>
+              <span class="badge badge-price">₹${Number(deal.original_price).toLocaleString('en-IN')}</span>
+              <span class="badge badge-savings">Save ₹${Number(savings).toLocaleString('en-IN')}</span>
+              ${deal.redeemed ? '<span class="badge badge-redeemed">✓ Redeemed</span>' : ''}
+            </div>
+            ${deal.deal_url ? `<a class="deal-url" href="${escHtml(deal.deal_url)}" target="_blank">↗ Open deal</a>` : ''}
+            ${dateStr ? `<div class="deal-date">Added ${dateStr}</div>` : ''}
+          </div>
+          <div class="deal-actions">
+            ${!deal.redeemed ? `<button class="btn-action redeem" onclick="redeemDeal(${deal.id})">✓ Redeem</button>` : ''}
+            <button class="btn-action delete" onclick="deleteDeal(${deal.id})">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function addDeal() {
+    const store = document.getElementById('store').value.trim();
+    const price = parseFloat(document.getElementById('price').value);
+    const cashback = parseFloat(document.getElementById('cashback').value);
+    const url = document.getElementById('url').value.trim();
+
+    if (!store || isNaN(price) || isNaN(cashback)) {
+      showToast('Please fill store, price, and cashback %');
+      return;
+    }
+
+    await fetch(`${API}/deals`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ store, original_price: price, cashback_percent: cashback, deal_url: url })
+    });
+
+    document.getElementById('store').value = '';
+    document.getElementById('price').value = '';
+    document.getElementById('cashback').value = '';
+    document.getElementById('url').value = '';
+
+    showToast('Deal added!');
+    loadDeals();
+  }
+
+  async function redeemDeal(id) {
+    await fetch(`${API}/deals/${id}`, { method: 'PUT' });
+    showToast('Deal redeemed!');
+    loadDeals();
+  }
+
+  async function deleteDeal(id) {
+    await fetch(`${API}/deals/${id}`, { method: 'DELETE' });
+    showToast('Deal deleted');
+    loadDeals();
+  }
+
+  function setFilter(filter, el) {
+    currentFilter = filter;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderDeals();
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadDeals();
+</script>
+</body>
+</html>
